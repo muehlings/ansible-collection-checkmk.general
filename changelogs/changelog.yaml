@@ -112,6 +112,24 @@ releases:
       name: contact_group
       namespace: ''
     release_date: '2022-11-18'
+  0.13.0:
+    changes:
+      major_changes:
+      - Add service_group module.
+      minor_changes: []
+    fragments:
+    - new-passwd-hashing.yml
+    - service_group_module.yml
+    release_date: '2022-12-02'
+  0.14.0:
+    changes:
+      deprecated_features:
+      - host_group module - The module was released with the module options `host_group_name`
+        and `host_groups`. These have ben renamed to `name` and `groups` to align
+        with our standards. The old names will be removed in a future release.
+    fragments:
+    - host_group.yml
+    release_date: '2022-12-09'
   0.2.0:
     changes:
       known_issues:

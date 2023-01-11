@@ -1,6 +1,6 @@
 ---
-- name: "{{ outer_item.version }} - Create host groups."
-  host_group:
+- name: "{{ outer_item.version }} - Create service groups."
+  service_group:
     server_url: "{{ server_url }}"
     site: "{{ outer_item.site }}"
     automation_user: "{{ automation_user }}"
@@ -10,22 +10,22 @@
     state: "present"
   delegate_to: localhost
   run_once: true
-  loop: "{{ checkmk_host_groups_create }}"
+  loop: "{{ checkmk_service_groups_create }}"
 
-- name: "{{ outer_item.version }} - Should fail because of 'groups', Create host groups."
-  host_group:
+- name: "{{ outer_item.version }} - Should fail because of 'groups', Create service groups."
+  service_group:
     server_url: "{{ server_url }}"
     site: "{{ outer_item.site }}"
     automation_user: "{{ automation_user }}"
     automation_secret: "{{ automation_secret }}"
     name: "{{ item.name }}"
     title: "{{ item.title | default(item.name) }}"
-    groups: checkmk_host_groups_create
+    groups: checkmk_service_groups_create
     state: "present"
   delegate_to: localhost
   run_once: true
-  loop: "{{ checkmk_host_groups_create }}"
-  ignore_errors: True
+  loop: "{{ checkmk_service_groups_create }}"
+  ignore_errors: true
 
 - name: "{{ outer_item.version }} - Activate."
   activation:
@@ -39,8 +39,8 @@
   delegate_to: localhost
   run_once: true
 
-- name: "{{ outer_item.version }} - Modify part of host groups (also checks for idempotency!)."
-  host_group:
+- name: "{{ outer_item.version }} - Modify part of service groups (also checks for idempotency!)."
+  service_group:
     server_url: "{{ server_url }}"
     site: "{{ outer_item.site }}"
     automation_user: "{{ automation_user }}"
@@ -50,7 +50,7 @@
     state: "present"
   delegate_to: localhost
   run_once: true
-  loop: "{{ checkmk_host_groups_modify }}"
+  loop: "{{ checkmk_service_groups_modify }}"
 
 - name: "{{ outer_item.version }} - Activate."
   activation:
@@ -64,8 +64,8 @@
   delegate_to: localhost
   run_once: true
 
-- name: "{{ outer_item.version }} - Delete host groups."
-  host_group:
+- name: "{{ outer_item.version }} - Delete service groups."
+  service_group:
     server_url: "{{ server_url }}"
     site: "{{ outer_item.site }}"
     automation_user: "{{ automation_user }}"
@@ -74,7 +74,7 @@
     state: "absent"
   delegate_to: localhost
   run_once: true
-  loop: "{{ checkmk_host_groups_delete }}"
+  loop: "{{ checkmk_service_groups_delete }}"
 
 - name: "{{ outer_item.version }} - Activate."
   activation:
@@ -88,8 +88,8 @@
   delegate_to: localhost
   run_once: true
 
-- name: "{{ outer_item.version }} - Delete host groups that were created at the beginning (also check for idempotency)."
-  host_group:
+- name: "{{ outer_item.version }} - Delete service groups that were created at the beginning (also check for idempotency)."
+  service_group:
     server_url: "{{ server_url }}"
     site: "{{ outer_item.site }}"
     automation_user: "{{ automation_user }}"
@@ -98,7 +98,7 @@
     state: "absent"
   delegate_to: localhost
   run_once: true
-  loop: "{{ checkmk_host_groups_create }}"
+  loop: "{{ checkmk_service_groups_create }}"
 
 - name: "{{ outer_item.version }} - Activate."
   activation:
@@ -112,72 +112,72 @@
   delegate_to: localhost
   run_once: true
 
-- name: "{{ outer_item.version }} - Bulk create host groups."
-  host_group:
+- name: "{{ outer_item.version }} - Bulk create service groups."
+  service_group:
     server_url: "{{ server_url }}"
     site: "{{ outer_item.site }}"
     automation_user: "{{ automation_user }}"
     automation_secret: "{{ automation_secret }}"
-    groups: "{{ checkmk_host_groups_create }}"
+    groups: "{{ checkmk_service_groups_create }}"
     state: "present"
   delegate_to: localhost
   run_once: true
 
-- name: "{{ outer_item.version }} - Should fail because of 'name', Bulk create host groups."
-  host_group:
+- name: "{{ outer_item.version }} - Should fail because of 'name', Bulk create service groups."
+  service_group:
     server_url: "{{ server_url }}"
     site: "{{ outer_item.site }}"
     automation_user: "{{ automation_user }}"
     automation_secret: "{{ automation_secret }}"
-    groups: "{{ checkmk_host_groups_create }}"
+    groups: "{{ checkmk_service_groups_create }}"
     name: "test"
     state: "present"
   delegate_to: localhost
   run_once: true
-  ignore_errors: True
+  ignore_errors: true
 
-- name: "{{ outer_item.version }} - Should fail because of 'title', Bulk create host groups."
-  host_group:
+- name: "{{ outer_item.version }} - Should fail because of 'title', Bulk create service groups."
+  service_group:
     server_url: "{{ server_url }}"
     site: "{{ outer_item.site }}"
     automation_user: "{{ automation_user }}"
     automation_secret: "{{ automation_secret }}"
-    groups: "{{ checkmk_host_groups_create }}"
+    groups: "{{ checkmk_service_groups_create }}"
     title: "Test"
     state: "present"
   delegate_to: localhost
   run_once: true
-  ignore_errors: True
+  ignore_errors: true
 
-- name: "{{ outer_item.version }} - Bulk modify part of host groups (also checks for idempotency!)."
-  host_group:
+- name: "{{ outer_item.version }} - Bulk modify part of service groups (also checks for idempotency!)."
+  service_group:
     server_url: "{{ server_url }}"
     site: "{{ outer_item.site }}"
     automation_user: "{{ automation_user }}"
     automation_secret: "{{ automation_secret }}"
-    groups: "{{ checkmk_host_groups_modify }}"
+    groups: "{{ checkmk_service_groups_modify }}"
     state: "present"
   delegate_to: localhost
   run_once: true
 
-- name: "{{ outer_item.version }} - Bulk delete host groups."
-  host_group:
+- name: "{{ outer_item.version }} - Bulk delete service groups."
+  service_group:
     server_url: "{{ server_url }}"
     site: "{{ outer_item.site }}"
     automation_user: "{{ automation_user }}"
     automation_secret: "{{ automation_secret }}"
-    groups: "{{ checkmk_host_groups_delete }}"
+    groups: "{{ checkmk_service_groups_delete }}"
     state: "absent"
   delegate_to: localhost
   run_once: true
 
-- name: "{{ outer_item.version }} - Bulk delete host groups that were created at the beginning (also check for idempotency)."
-  host_group:
+- name: "{{ outer_item.version }} - Bulk delete service groups that were created at the beginning (also check for idempotency)."
+  service_group:
     server_url: "{{ server_url }}"
     site: "{{ outer_item.site }}"
     automation_user: "{{ automation_user }}"
     automation_secret: "{{ automation_secret }}"
-    groups: "{{ checkmk_host_groups_create }}"
+    groups: "{{ checkmk_service_groups_create }}"
     state: "absent"
   delegate_to: localhost
   run_once: true
